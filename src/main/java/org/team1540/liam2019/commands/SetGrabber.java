@@ -14,7 +14,7 @@ public class SetGrabber extends Command {
 
     @Override
     protected void initialize() {
-        Robot.grabber.set(state);
+        Robot.grabber.setGrabbed(state);
     }
 
     @Override

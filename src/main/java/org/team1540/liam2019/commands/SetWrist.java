@@ -10,7 +10,7 @@ public class SetWrist extends Command {
 
     //false is up, true is down
     public SetWrist(boolean state) {
-        requires(Robot.intakeWrist);
+        requires(Robot.wrist);
 
         if (state) position=1000;
         else position=0;

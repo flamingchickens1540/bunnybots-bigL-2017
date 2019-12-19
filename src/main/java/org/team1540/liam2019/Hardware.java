@@ -35,6 +35,9 @@ public class Hardware {
         leftA = new CANSparkMax(3, MotorType.kBrushless);
         leftB = new CANSparkMax(4, MotorType.kBrushless);
 
+        rightA.setInverted(true);
+        leftA.setInverted(false);
+
         rightB.follow(rightA);
         leftB.follow(leftA);
     }
@@ -51,6 +54,7 @@ public class Hardware {
 
         rightIntake.follow(leftIntake);
         rightIntake.setInverted(true);
+
         wrist.config_kP(0, 1);
         wrist.config_kI(0, 0);
         wrist.config_kD(0, 1);

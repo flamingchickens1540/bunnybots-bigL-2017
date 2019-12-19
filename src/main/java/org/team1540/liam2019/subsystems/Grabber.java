@@ -5,12 +5,19 @@ import org.team1540.liam2019.Hardware;
 
 public class Grabber extends Subsystem {
 
-    public void set(boolean state) {
+    public void setGrabbed(boolean state) {
         Hardware.arms.set(state);
+    }
+
+    public boolean isGrabbed() {
+        return Hardware.arms.get();
+    }
+
+    public void toggleGrabbed() {
+        setGrabbed(!isGrabbed());
     }
 
     @Override
     protected void initDefaultCommand() {
-
     }
 }
