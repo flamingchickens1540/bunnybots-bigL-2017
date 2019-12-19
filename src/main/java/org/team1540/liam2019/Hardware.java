@@ -56,8 +56,6 @@ public class Hardware {
         wrist.config_kD(0, 1);
         wrist.setSelectedSensorPosition(0);
 
-
         arms = new Solenoid(0);
     }
-
 }

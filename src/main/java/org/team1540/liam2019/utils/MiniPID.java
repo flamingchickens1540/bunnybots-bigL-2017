@@ -234,7 +234,7 @@ public class MiniPID {
     /**
      * Calculate the output value for the current PID cycle.<br>
      *
-     * @param actual   The monitored value, typically as a sensor input.
+     * @param actual The monitored value, typically as a sensor input.
      * @param setpoint The target value for the system
      * @return calculated output value for driving the system
      */
@@ -396,8 +396,8 @@ public class MiniPID {
      * Forces a value into a specific range
      *
      * @param value input value
-     * @param min   maximum returned value
-     * @param max   minimum value in range
+     * @param min maximum returned value
+     * @param max minimum value in range
      * @return Value if it's within provided range, min or max otherwise
      */
     private double constrain(double value, double min, double max) {
@@ -414,8 +414,8 @@ public class MiniPID {
      * Test if the value is within the min and max, inclusive
      *
      * @param value to test
-     * @param min   Minimum value of range
-     * @param max   Maximum value of range
+     * @param min Minimum value of range
+     * @param max Maximum value of range
      * @return true if value is within range, false otherwise
      */
     private boolean bounded(double value, double min, double max) {
