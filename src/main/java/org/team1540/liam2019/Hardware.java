@@ -47,8 +47,7 @@ public class Hardware {
         wrist = new ChickenTalon(5);
         leftIntake = new ChickenTalon(6);
         rightIntake = new ChickenTalon(7);
-        intakeSensor = new AnalogInput(RobotMap.intakeSensor);
-
+        intakeSensor = new AnalogInput(0);
 
         rightIntake.follow(leftIntake);
         rightIntake.setInverted(true);
