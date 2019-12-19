@@ -1,7 +1,7 @@
-package org.team1540.robot2019.commands;
+package org.team1540.liam2019.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import org.team1540.robot2019.Robot;
+import org.team1540.liam2019.Robot;
 
 public class SetGrabber extends Command {
 
@@ -14,7 +14,7 @@ public class SetGrabber extends Command {
 
     @Override
     protected void initialize() {
-        Robot.grabber.set(state);
+        Robot.grabber.setGrabbed(state);
     }
 
     @Override
