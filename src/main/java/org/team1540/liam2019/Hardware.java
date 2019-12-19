@@ -27,6 +27,7 @@ public class Hardware {
         initDrive();
         initGyro();
         initIntake();
+        initWrist();
     }
 
     static void initDrive() {
@@ -47,19 +48,28 @@ public class Hardware {
     }
 
     static void initIntake() {
-        wrist = new ChickenTalon(5);
+        // Intake
         leftIntake = new ChickenTalon(6);
         rightIntake = new ChickenTalon(7);
-        intakeSensor = new AnalogInput(0);
+
+        leftIntake.setInverted(true);
+        rightIntake.setInverted(false);
 
         rightIntake.follow(leftIntake);
-        rightIntake.setInverted(true);
+
+        // Arms
+        arms = new Solenoid(0);
+
+        // Sensor
+        intakeSensor = new AnalogInput(0);
+    }
+
+    static void initWrist() {
+        wrist = new ChickenTalon(5);
 
         wrist.config_kP(0, 1);
         wrist.config_kI(0, 0);
         wrist.config_kD(0, 1);
         wrist.setSelectedSensorPosition(0);
-
-        arms = new Solenoid(0);
     }
 }
