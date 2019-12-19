@@ -5,8 +5,7 @@ import org.team1540.liam2019.Hardware;
 
 public class Intake extends Subsystem {
 
-    //accepts -1,0,1
-    public void set(int state) {
+    public void set(double state) {
         Hardware.leftIntake.set(state);
     }
 

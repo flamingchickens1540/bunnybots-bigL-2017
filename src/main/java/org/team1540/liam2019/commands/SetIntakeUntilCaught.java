@@ -7,9 +7,9 @@ import org.team1540.liam2019.Tuning;
 
 public class SetIntakeUntilCaught extends Command {
 
-    int state;
+    double state;
 
-    public SetIntakeUntilCaught(int state) {
+    public SetIntakeUntilCaught(double state) {
         requires(Robot.intake);
         this.state = state;
     }

@@ -21,7 +21,7 @@ public class OI {
     public static void init() {
         buttonA.whenPressed(new SimpleCommand(() -> Robot.grabber.toggleGrabbed()));
 
-        buttonB.whenPressed(new SetIntakeUntilCaught(-1));
+        buttonB.whenPressed(new SetIntakeUntilCaught(-0.5));
 
         buttonX.whenPressed(new SetWrist(true));
         buttonX.whenReleased(new SetWrist(false));
