@@ -1,11 +1,11 @@
-package org.team1540.robot2019;
+package org.team1540.liam2019;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import org.team1540.robot2019.commands.SetWrist;
-import org.team1540.robot2019.commands.SetIntakeUntilCaught;
+import org.team1540.liam2019.commands.SetWrist;
+import org.team1540.liam2019.commands.SetIntakeUntilCaught;
 import org.team1540.rooster.util.SimpleCommand;
 
 public class OI {
