@@ -1,10 +1,8 @@
 package org.team1540.liam2019;
 
-
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.team1540.liam2019.commands.wrist.MoveWrist;
 import org.team1540.liam2019.subsystems.Drivetrain;
 import org.team1540.liam2019.subsystems.Grabber;
 import org.team1540.liam2019.subsystems.Intake;
@@ -20,17 +18,18 @@ public class Robot extends TimedRobot {
     @Override
     public void robotPeriodic() {
         Scheduler.getInstance().run();
-        SmartDashboard.putNumber("micahGank/navx", Hardware.navx.getYawRadians());
-        SmartDashboard.putNumber("wrist", wrist.getPosition());
+
+        SmartDashboard.putNumber("debug/yawRad", Hardware.navx.getYawRadians());
+        SmartDashboard.putNumber("debug/wristPos", wrist.getPosition());
+        SmartDashboard.putNumber("debug/driveTrainLeftPos", driveTrain.getLeftPos());
+        SmartDashboard.putNumber("debug/driveTrainRightPos", driveTrain.getRightPos());
+        SmartDashboard.putNumber("debug/intakeSensorVoltage", Hardware.intakeSensor.getVoltage());
     }
 
     @Override
     public void robotInit() {
         Hardware.init();
         OI.init();
-        SmartDashboard.putNumber("micahGank/P", 0.2);
-        SmartDashboard.putNumber("micahGank/I", 0.0);
-        SmartDashboard.putNumber("micahGank/D", 0.2);
     }
 
     @Override
@@ -40,6 +39,5 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         Hardware.wrist.setSelectedSensorPosition(0);
-        new MoveWrist(MoveWrist.WristPosition.DOWN);
     }
 }
