@@ -9,12 +9,7 @@ public class Intake extends Subsystem {
         Hardware.leftIntake.set(state);
     }
 
-    public double getCurrent() {
-        return (Hardware.leftIntake.getOutputCurrent() + Hardware.rightIntake.getOutputCurrent())/2;
-    }
-
     @Override
     protected void initDefaultCommand() {
-
     }
 }

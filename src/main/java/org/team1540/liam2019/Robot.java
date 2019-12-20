@@ -4,6 +4,7 @@ package org.team1540.liam2019;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.team1540.liam2019.commands.SetWrist;
 import org.team1540.liam2019.subsystems.DriveTrain;
 import org.team1540.liam2019.subsystems.Grabber;
 import org.team1540.liam2019.subsystems.Intake;
@@ -19,7 +20,8 @@ public class Robot extends TimedRobot {
     @Override
     public void robotPeriodic() {
         Scheduler.getInstance().run();
-        SmartDashboard.putNumber("micahGank/gyro", Hardware.gyro.getYawRadians());
+        SmartDashboard.putNumber("micahGank/navx", Hardware.navx.getYawRadians());
+        SmartDashboard.putNumber("wrist", wrist.getPosition());
     }
 
     @Override
@@ -33,5 +35,11 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopPeriodic() {
+    }
+
+    @Override
+    public void autonomousInit() {
+        Hardware.wrist.setSelectedSensorPosition(0);
+        new SetWrist(SetWrist.WristPosition.DOWN);
     }
 }

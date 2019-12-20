@@ -1,8 +1,6 @@
 package org.team1540.liam2019;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.kauailabs.navx.frc.AHRS;
-import com.kauailabs.navx.frc.Quaternion;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -24,7 +22,7 @@ public class Hardware {
     public static Solenoid arms;
 
     public static AnalogInput intakeSensor;
-    public static NavX gyro;
+    public static NavX navx;
 
     public static void init() {
         initDrive();
@@ -47,18 +45,21 @@ public class Hardware {
     }
 
     static void initGyro() {
-        gyro = new NavX(Port.kMXP);
+        navx = new NavX(Port.kMXP);
     }
 
     static void initIntake() {
         // Intake
         leftIntake = new ChickenTalon(6);
         rightIntake = new ChickenTalon(7);
+        rightIntake.follow(leftIntake);
+
 
         leftIntake.setInverted(true);
         rightIntake.setInverted(false);
 
-        rightIntake.follow(leftIntake);
+        leftIntake.setBrake(true);
+        rightIntake.setBrake(true);
 
         // Arms
         arms = new Solenoid(0);
@@ -69,10 +70,14 @@ public class Hardware {
 
     static void initWrist() {
         wrist = new ChickenTalon(5);
+        wrist.setBrake(true);
 
-        wrist.config_kP(0, 2);
-        wrist.config_kI(0, 0);
+        wrist.config_kP(0, 3);
+        wrist.config_kI(0, 0.01);
+        wrist.config_IntegralZone(0, 100);
         wrist.config_kD(0, 0);
+        wrist.config_kF(0, 0);
+        wrist.configClosedLoopPeakOutput(0, 0.9);
         wrist.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
         wrist.setSelectedSensorPosition(0);
 

@@ -5,18 +5,18 @@ import org.team1540.liam2019.Hardware;
 import org.team1540.liam2019.Robot;
 import org.team1540.liam2019.Tuning;
 
-public class SetIntakeUntilCaught extends Command {
+public class IntakeBin extends Command {
 
-    double state;
+    double intakeVel;
 
-    public SetIntakeUntilCaught(double state) {
+    public IntakeBin(double intakeVel) {
         requires(Robot.intake);
-        this.state = state;
+        this.intakeVel = intakeVel;
     }
 
     @Override
     protected void initialize() {
-        Robot.intake.set(state);
+        Robot.intake.set(intakeVel);
     }
 
     @Override
@@ -26,6 +26,6 @@ public class SetIntakeUntilCaught extends Command {
 
     @Override
     protected boolean isFinished() {
-        return Hardware.intakeSensor.getVoltage() < Tuning.intakeSensorThreshold || state==0;
+        return Hardware.intakeSensor.getVoltage() < Tuning.intakeSensorThreshold;
     }
 }

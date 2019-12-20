@@ -1,39 +1,55 @@
 package org.team1540.liam2019.commands;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.TimedCommand;
 import org.team1540.liam2019.Hardware;
 import org.team1540.liam2019.Robot;
 
-public class SetWrist extends Command {
+public class SetWrist extends TimedCommand {
 
-    double position;
+    public static final double TOLERANCE = 10;
+    private static double DEFAULT_TIMEOUT = 2;
 
-    //false is up, true is down
-    public SetWrist(boolean state) {
-        requires(Robot.wrist);
+    public enum WristPosition {
+        DOWN(-2500),
+        CARRY(-2000),
+        UP(0),
+        SHAKE(100),
+        BACK(500);
 
-        if (state) position=0;
-        else position=-2500;
+        int value;
+        WristPosition(int value) {
+            this.value = value;
+        }
     }
 
-    public SetWrist(double position) {
+    private double position;
+
+    public SetWrist(double position, double timeout) {
+        super(timeout);
         requires(Robot.wrist);
         this.position = position;
     }
 
-    @Override
-    protected void initialize() {
+    public SetWrist(double position) {
+        this(position, DEFAULT_TIMEOUT);
+    }
 
+    public SetWrist(WristPosition position, double timeout) {
+        this(position.value, timeout);
+    }
+
+    public SetWrist(WristPosition position) {
+        this(position.value, DEFAULT_TIMEOUT);
     }
 
     @Override
     protected void execute() {
-        Hardware.wrist.set(ControlMode.Position, position);
+        Robot.wrist.setPosition(position);
     }
 
     @Override
     protected boolean isFinished() {
-        return Math.abs(Hardware.wrist.getSelectedSensorPosition() - position) < 0.1;
+        return Math.abs(Robot.wrist.getPosition() - position) < TOLERANCE;
     }
 }

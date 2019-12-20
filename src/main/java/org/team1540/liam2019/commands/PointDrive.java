@@ -1,27 +1,46 @@
 package org.team1540.liam2019.commands;
 
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.command.PIDCommand;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.team1540.liam2019.Hardware;
-import org.team1540.liam2019.OI;
 import org.team1540.liam2019.Robot;
 import org.team1540.liam2019.Utils;
+import org.team1540.liam2019.utils.ChickenXboxController;
+import org.team1540.liam2019.utils.MiniPID;
 import org.team1540.rooster.Utilities;
+import org.team1540.rooster.util.SimpleCommand;
 
-public class PointDrive extends PIDCommand {
+import static edu.wpi.first.wpilibj.GenericHID.Hand;
+import static org.team1540.liam2019.Hardware.navx;
+import static org.team1540.liam2019.OI.driver;
+
+public class PointDrive extends Command {
 
     private double goalAngle;
+    private MiniPID pointController;
+    private double angleOffset;
 
     public PointDrive() {
-        super(SmartDashboard.getNumber("micahGank/P", 0), SmartDashboard.getNumber("micahGank/I", 0), SmartDashboard.getNumber("micahGank/D", 0));
         requires(Robot.driveTrain);
+
+        SmartDashboard.putNumber("PointDrive/P", 2);
+        SmartDashboard.putNumber("PointDrive/I", 0);
+        SmartDashboard.putNumber("PointDrive/D", 0);
+
+        pointController = new MiniPID(0, 0, 0);
+        pointController.setOutputLimits(1);
+        driver.getButton(ChickenXboxController.XboxButton.Y).whenPressed(new SimpleCommand("", this::zeroAngle));
     }
 
     @Override
     protected void initialize() {
-        getPIDController().setPID(SmartDashboard.getNumber("micahGank/P", 0), SmartDashboard.getNumber("micahGank/I", 0), SmartDashboard.getNumber("micahGank/D", 0));
-        setSetpoint(0);
+        double p = SmartDashboard.getNumber("PointDrive/P", 0);
+        double i = SmartDashboard.getNumber("PointDrive/I", 0);
+        double d = SmartDashboard.getNumber("PointDrive/D", 0);
+        pointController.setPID(p, i, d);
+    }
+
+    public void zeroAngle() {
+        angleOffset = navx.getYawRadians();
     }
 
     @Override
@@ -30,36 +49,13 @@ public class PointDrive extends PIDCommand {
     }
 
     @Override
-    protected double returnPIDInput() {
-        return Utils.signedAngleError(getAngleR(), Hardware.gyro.getYawRadians());
-    }
-
-    @Override
-    protected void usePIDOutput(double output) {
-        double leftThrottle = Utilities.processDeadzone(OI.driver.getY(GenericHID.Hand.kLeft), 0.1);
-        Robot.driveTrain.setThrottle(-output - leftThrottle, output - leftThrottle);
-        System.out.println("drive PID output used");
-    }
-
-    @Override
-    protected void end() {
-//        Robot.driveTrain.brake();
-    }
-
-    //returns an updated value if the joystick is not in the center
-    public double getAngleR() {
-//        if (!(driver.getY(GenericHID.Hand.kRight) < 0.1 && driver.getX(GenericHID.Hand.kRight) < 0.1)) {
-//            joyAngleR = Math.atan2(driver.getY(GenericHID.Hand.kRight), driver.getX(GenericHID.Hand.kRight));
-//        }
-//        return joyAngleR;
-
-        if(OI.driver.get2DJoystickMagnitude(GenericHID.Hand.kRight) > 0.1) this.goalAngle = OI.driver.get2DJoystickAngle(GenericHID.Hand.kRight);
-
-        return this.goalAngle;
-    }
-
-    @Override
     protected void execute() {
-        SmartDashboard.putNumber("micahGank/target", getAngleR());
+        if (driver.get2DJoystickMagnitude(Hand.kRight) > 0.1) goalAngle = driver.get2DJoystickAngle(Hand.kRight);
+        double angleOutput = pointController.getOutput(Utils.signedAngleError(goalAngle+angleOffset, navx.getYawRadians()));
+        double throttle = Utilities.processDeadzone(driver.getRectifiedX(Hand.kLeft), 0.1);
+
+        double leftMotors = throttle-angleOutput;
+        double rightMotors = throttle+angleOutput;
+        Robot.driveTrain.setThrottle(leftMotors, rightMotors);
     }
 }
