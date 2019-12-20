@@ -25,9 +25,4 @@ public class DriveForTime extends TimedCommand {
         double rightMotors = rightPercent;
         Robot.driveTrain.setPercent(leftMotors, rightMotors);
     }
-
-    @Override
-    protected boolean isFinished() {
-        return false;
-    }
 }

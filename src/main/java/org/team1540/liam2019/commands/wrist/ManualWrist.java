@@ -19,6 +19,11 @@ public class ManualWrist extends Command {
     }
 
     @Override
+    protected void end() {
+        Robot.wrist.setPosition(Robot.wrist.getPosition());
+    }
+
+    @Override
     protected boolean isFinished() {
         return false;
     }

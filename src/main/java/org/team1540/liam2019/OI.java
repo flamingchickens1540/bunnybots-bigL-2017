@@ -1,11 +1,14 @@
 package org.team1540.liam2019;
 
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import org.team1540.liam2019.commands.auto.AxisButton;
 import org.team1540.liam2019.commands.grabber.SetGrabber;
 import org.team1540.liam2019.commands.intake.EjectBin;
 import org.team1540.liam2019.commands.intake.SensorIntakeBin;
+import org.team1540.liam2019.commands.intake.SetIntakeForTime;
 import org.team1540.liam2019.commands.wrist.ManualWrist;
 import org.team1540.liam2019.commands.wrist.MoveWrist;
 import org.team1540.liam2019.utils.ChickenXboxController;
@@ -27,7 +30,8 @@ public class OI {
     public static Button dumpBin = copilot.getButton(DPadAxis.UP);
     public static Button ejectBin = copilot.getButton(ChickenXboxController.XboxButton.B);
 
-    public static Button enableManualWrist = copilot.getButton(ChickenXboxController.XboxButton.LEFT_PRESS);
+    public static Button enableManualWrist = new AxisButton(copilot, 0.15, ChickenXboxController.XboxAxis.LEFT_Y.value);
+    public static Button zeroWrist = copilot.getButton(ChickenXboxController.XboxButton.BACK);
 
     public static void init() {
         initDriver();
@@ -52,6 +56,10 @@ public class OI {
         ejectBin.whileHeld(new EjectBin(1));
 
         enableManualWrist.whileHeld(new ManualWrist());
+        zeroWrist.whenPressed(new SimpleCommand(() -> {
+            Hardware.wrist.set(ControlMode.PercentOutput, 0);
+            Hardware.wrist.setSelectedSensorPosition(0);
+        }));
     }
 
     public static class FloorIntake extends CommandGroup {
@@ -59,15 +67,21 @@ public class OI {
             addSequential(new SetGrabber(false));
             addParallel(new MoveWrist(MoveWrist.WristPosition.DOWN, 1));
             addSequential(new SensorIntakeBin(-0.3, 2));
+            addSequential(new SetIntakeForTime(-0.5, 0.3));
             addSequential(new SetGrabber(true));
+            addSequential(new MoveWrist(MoveWrist.WristPosition.CARRY, 1));
         }
     }
 
     public static class DumpBin extends CommandGroup {
         {
+            addSequential(new SetGrabber(true));
             addSequential(new MoveWrist(MoveWrist.WristPosition.BACK, 1));
-            addSequential(new MoveWrist(MoveWrist.WristPosition.SHAKE, 0.5));
-            addSequential(new MoveWrist(MoveWrist.WristPosition.BACK, 0.5));
+            addSequential(new MoveWrist(MoveWrist.WristPosition.SHAKE, 1));
+            addSequential(new MoveWrist(MoveWrist.WristPosition.BACK, 1));
+            addSequential(new MoveWrist(MoveWrist.WristPosition.YEET, 1));
+            addSequential(new SetIntakeForTime(1, 0.5));
+            addSequential(new SetGrabber(false));
         }
     }
 }

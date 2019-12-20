@@ -3,11 +3,11 @@ package org.team1540.liam2019.commands.intake;
 import edu.wpi.first.wpilibj.command.TimedCommand;
 import org.team1540.liam2019.Robot;
 
-public class EjectBinForTime extends TimedCommand {
+public class SetIntakeForTime extends TimedCommand {
 
     double percent;
 
-    public EjectBinForTime(double percent, double timeout) {
+    public SetIntakeForTime(double percent, double timeout) {
         super(timeout);
         requires(Robot.intake);
         this.percent = percent;
@@ -21,10 +21,5 @@ public class EjectBinForTime extends TimedCommand {
     @Override
     protected void end() {
         Robot.intake.set(0);
-    }
-
-    @Override
-    protected boolean isFinished() {
-        return false;
     }
 }

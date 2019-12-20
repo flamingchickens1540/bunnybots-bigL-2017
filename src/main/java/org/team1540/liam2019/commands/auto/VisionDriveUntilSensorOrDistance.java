@@ -32,7 +32,6 @@ public class VisionDriveUntilSensorOrDistance extends Command {
         double rightMotors = rightPercent;
 
         double limelight = NetworkTableInstance.getDefault().getTable("limelight-a").getEntry("tx").getDouble(0) / 100;
-        System.out.println(limelight);
         leftMotors += limelight;
         rightMotors -= limelight;
 
