@@ -1,17 +1,18 @@
-package org.team1540.liam2019.commands;
+package org.team1540.liam2019.commands.intake;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.team1540.liam2019.Hardware;
 import org.team1540.liam2019.Robot;
-import org.team1540.liam2019.Tuning;
 
-public class IntakeBin extends Command {
+public class SensorIntakeBin extends Command {
 
     double intakeVel;
+    private double intakeSensorThreshold;
 
-    public IntakeBin(double intakeVel) {
+    public SensorIntakeBin(double throttle, double sensorThreshold) {
         requires(Robot.intake);
-        this.intakeVel = intakeVel;
+        this.intakeVel = throttle;
+        this.intakeSensorThreshold = sensorThreshold;
     }
 
     @Override
@@ -26,6 +27,6 @@ public class IntakeBin extends Command {
 
     @Override
     protected boolean isFinished() {
-        return Hardware.intakeSensor.getVoltage() < Tuning.intakeSensorThreshold;
+        return Hardware.intakeSensor.getVoltage() < intakeSensorThreshold;
     }
 }

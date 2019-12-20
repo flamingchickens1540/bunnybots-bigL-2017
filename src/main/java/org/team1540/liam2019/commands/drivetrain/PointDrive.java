@@ -1,11 +1,11 @@
-package org.team1540.liam2019.commands;
+package org.team1540.liam2019.commands.drivetrain;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.team1540.liam2019.OI;
 import org.team1540.liam2019.Robot;
-import org.team1540.liam2019.Utils;
-import org.team1540.liam2019.utils.ChickenXboxController;
 import org.team1540.liam2019.utils.MiniPID;
+import org.team1540.liam2019.utils.TrigUtils;
 import org.team1540.rooster.Utilities;
 import org.team1540.rooster.util.SimpleCommand;
 
@@ -28,7 +28,7 @@ public class PointDrive extends Command {
 
         pointController = new MiniPID(0, 0, 0);
         pointController.setOutputLimits(1);
-        driver.getButton(ChickenXboxController.XboxButton.Y).whenPressed(new SimpleCommand("", this::zeroAngle));
+        OI.zeroPointDrive.whenPressed(new SimpleCommand("", this::zeroAngle));
     }
 
     @Override
@@ -51,11 +51,11 @@ public class PointDrive extends Command {
     @Override
     protected void execute() {
         if (driver.get2DJoystickMagnitude(Hand.kRight) > 0.1) goalAngle = driver.get2DJoystickAngle(Hand.kRight);
-        double angleOutput = pointController.getOutput(Utils.signedAngleError(goalAngle+angleOffset, navx.getYawRadians()));
+        double angleOutput = pointController.getOutput(TrigUtils.signedAngleError(goalAngle + angleOffset, navx.getYawRadians()));
         double throttle = Utilities.processDeadzone(driver.getRectifiedX(Hand.kLeft), 0.1);
 
         double leftMotors = throttle-angleOutput;
         double rightMotors = throttle+angleOutput;
-        Robot.driveTrain.setThrottle(leftMotors, rightMotors);
+        Robot.driveTrain.setPercent(leftMotors, rightMotors);
     }
 }

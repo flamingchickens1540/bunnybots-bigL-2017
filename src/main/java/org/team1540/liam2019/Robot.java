@@ -4,15 +4,15 @@ package org.team1540.liam2019;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.team1540.liam2019.commands.SetWrist;
-import org.team1540.liam2019.subsystems.DriveTrain;
+import org.team1540.liam2019.commands.wrist.MoveWrist;
+import org.team1540.liam2019.subsystems.Drivetrain;
 import org.team1540.liam2019.subsystems.Grabber;
 import org.team1540.liam2019.subsystems.Intake;
 import org.team1540.liam2019.subsystems.Wrist;
 
 public class Robot extends TimedRobot {
 
-    public static DriveTrain driveTrain = new DriveTrain();
+    public static Drivetrain driveTrain = new Drivetrain();
     public static Grabber grabber = new Grabber();
     public static Intake intake = new Intake();
     public static Wrist wrist = new Wrist();
@@ -40,6 +40,6 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         Hardware.wrist.setSelectedSensorPosition(0);
-        new SetWrist(SetWrist.WristPosition.DOWN);
+        new MoveWrist(MoveWrist.WristPosition.DOWN);
     }
 }

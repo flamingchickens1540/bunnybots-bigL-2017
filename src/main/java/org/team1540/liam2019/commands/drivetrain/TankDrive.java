@@ -1,4 +1,4 @@
-package org.team1540.liam2019.commands;
+package org.team1540.liam2019.commands.drivetrain;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.command.Command;
@@ -23,7 +23,7 @@ public class TankDrive extends Command {
 
         double leftMotors = leftJoystick + forward - reverse;
         double rightMotors = rightJoystick + forward - reverse;
-        Robot.driveTrain.setThrottle(leftMotors, rightMotors);
+        Robot.driveTrain.setPercent(leftMotors, rightMotors);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package org.team1540.liam2019.commands;
+package org.team1540.liam2019.commands.grabber;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.team1540.liam2019.Robot;

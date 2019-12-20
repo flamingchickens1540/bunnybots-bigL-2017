@@ -17,4 +17,8 @@ public class Wrist extends Subsystem {
     @Override
     protected void initDefaultCommand() {
     }
+
+    public void setPercent(double percent) {
+        Hardware.wrist.set(ControlMode.PercentOutput, percent);
+    }
 }
