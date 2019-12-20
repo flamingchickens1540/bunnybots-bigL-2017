@@ -17,26 +17,18 @@ public class OI {
     public static Button buttonB = driver.getButton(ChickenXboxController.XboxButton.B);
     public static Button buttonX = driver.getButton(ChickenXboxController.XboxButton.X);
     public static Button buttonY = driver.getButton(ChickenXboxController.XboxButton.Y);
+    public static Button LB = driver.getButton(ChickenXboxController.XboxButton.LB);
+    public static Button RB = driver.getButton(ChickenXboxController.XboxButton.RB);
 
     public static void init() {
-        buttonA.whenPressed(new SimpleCommand(() -> Robot.grabber.toggleGrabbed()));
+        buttonA.whenPressed(new SimpleCommand(() -> Robot.grabber.toggleGrabbed(), Robot.grabber));
 
-        buttonB.whenPressed(new SetIntakeUntilCaught(-0.5));
+        LB.whenPressed(new SetIntakeUntilCaught(-0.5));
+        RB.whenPressed(new SimpleCommand(() -> Robot.intake.set(0.5), Robot.intake));
+        RB.whenReleased(new SimpleCommand(() -> Robot.intake.set(0), Robot.intake));
 
-        buttonX.whenPressed(new SetWrist(true));
-        buttonX.whenReleased(new SetWrist(false));
-    }
-
-    //returns an updated value if the joystick is not in the center
-    public static double getAngleR() {
-        if (!(driver.getY(GenericHID.Hand.kRight) < 0.1 && driver.getX(GenericHID.Hand.kRight) < 0.1)) {
-            joyAngleR = Math.atan2(driver.getY(GenericHID.Hand.kRight), driver.getX(GenericHID.Hand.kRight));
-        }
-        return joyAngleR;
-    }
-
-    public static double getThrottleL() {
-        return driver.getY(GenericHID.Hand.kLeft);
+        buttonB.whenPressed(new SetWrist(true));
+        buttonB.whenReleased(new SetWrist(false));
     }
 
 }

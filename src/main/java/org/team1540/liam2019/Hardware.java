@@ -1,11 +1,14 @@
 package org.team1540.liam2019;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.kauailabs.navx.frc.AHRS;
+import com.kauailabs.navx.frc.Quaternion;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.Solenoid;
+import org.team1540.liam2019.wrappers.NavX;
 import org.team1540.rooster.wrappers.ChickenTalon;
 
 public class Hardware {
@@ -21,7 +24,7 @@ public class Hardware {
     public static Solenoid arms;
 
     public static AnalogInput intakeSensor;
-    public static AHRS gyro;
+    public static NavX gyro;
 
     public static void init() {
         initDrive();
@@ -44,7 +47,7 @@ public class Hardware {
     }
 
     static void initGyro() {
-        gyro = new AHRS(Port.kMXP);
+        gyro = new NavX(Port.kMXP);
     }
 
     static void initIntake() {
@@ -67,9 +70,11 @@ public class Hardware {
     static void initWrist() {
         wrist = new ChickenTalon(5);
 
-        wrist.config_kP(0, 1);
+        wrist.config_kP(0, 2);
         wrist.config_kI(0, 0);
-        wrist.config_kD(0, 1);
+        wrist.config_kD(0, 0);
+        wrist.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
         wrist.setSelectedSensorPosition(0);
+
     }
 }
