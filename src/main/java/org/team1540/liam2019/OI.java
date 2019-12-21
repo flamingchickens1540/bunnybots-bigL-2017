@@ -47,6 +47,8 @@ public class OI {
     public static void init() {
         initDriver();
         initCopilot();
+
+        // TODO: test auto distance and timeout, test floor pickup timeout and speed, test wrist movement timeouts, test dump bin, test auto in auto init
     }
 
     private static void initDriver() {
