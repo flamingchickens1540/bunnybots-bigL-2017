@@ -26,10 +26,10 @@ public class PointDrive extends Command {
     public PointDrive() {
         requires(Robot.driveTrain);
 
-        SmartDashboard.putNumber("PointDrive/P", 2);
+        SmartDashboard.putNumber("PointDrive/P", 0.5);
         SmartDashboard.putNumber("PointDrive/I", 0);
         SmartDashboard.putNumber("PointDrive/D", 0);
-        SmartDashboard.putNumber("PointDrive/max", 0.3);
+        SmartDashboard.putNumber("PointDrive/max", 0.5);
         SmartDashboard.putNumber("PointDrive/min", 0);
         SmartDashboard.putNumber("PointDrive/deadzone", 0.02);
 
@@ -51,27 +51,26 @@ public class PointDrive extends Command {
 
     public void zeroAngle() {
         angleOffset = navx.getYawRadians();
-    }
-
-    @Override
-    protected boolean isFinished() {
-        return false;
+        goalAngle = 0;
     }
 
     @Override
     protected void execute() {
-        if (driver.get2DJoystickMagnitude(Hand.kRight) > 0.1) goalAngle = driver.get2DJoystickAngle(Hand.kRight);
+        if (driver.get2DJoystickMagnitude(Hand.kRight) > 0.5) goalAngle = driver.get2DJoystickAngle(Hand.kRight);
         double error = TrigUtils.signedAngleError(goalAngle + angleOffset, navx.getYawRadians());
         SmartDashboard.putNumber("PointDrive/error", error);
         double rawPIDOutput = pointController.getOutput(error);
-        double angleOutput = ControlUtils.allVelocityConstraints(rawPIDOutput, max, min, deadzone);
-
-
+        double angleOutput = -ControlUtils.allVelocityConstraints(rawPIDOutput, max, min, deadzone);
 
         double throttle = Utilities.processDeadzone(driver.getRectifiedX(Hand.kLeft), 0.1);
 
         double leftMotors = throttle-angleOutput;
         double rightMotors = throttle+angleOutput;
         Robot.driveTrain.setPercent(leftMotors, rightMotors);
+    }
+
+    @Override
+    protected boolean isFinished() {
+        return false;
     }
 }

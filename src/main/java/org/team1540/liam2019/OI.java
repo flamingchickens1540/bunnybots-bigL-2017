@@ -26,7 +26,7 @@ public class OI {
     public static Button toggleGrabber = copilot.getButton(ChickenXboxController.XboxButton.A);
 
     public static Button intakeBin = copilot.getButton(DPadAxis.DOWN);
-    public static Button carryBin = copilot.getButton(DPadAxis.LEFT);
+    public static Button stowIntake = copilot.getButton(DPadAxis.LEFT);
     public static Button dumpBin = copilot.getButton(DPadAxis.UP);
     public static Button ejectBin = copilot.getButton(ChickenXboxController.XboxButton.B);
 
@@ -49,8 +49,8 @@ public class OI {
 
         dumpBin.whenPressed(new DumpBin());
 
-        carryBin.whenPressed(new CommandGroup() {{
-            addSequential(new MoveWrist(MoveWrist.WristPosition.CARRY, 1));
+        stowIntake.whenPressed(new CommandGroup() {{
+            addSequential(new MoveWrist(MoveWrist.WristPosition.UP, 1));
         }});
 
         ejectBin.whileHeld(new EjectBin(1));
