@@ -3,11 +3,11 @@ package org.team1540.liam2019.commands.intake;
 import edu.wpi.first.wpilibj.command.Command;
 import org.team1540.liam2019.Robot;
 
-public class EjectBin extends Command {
+public class SetIntake extends Command {
 
     double percent;
 
-    public EjectBin(double percent) {
+    public SetIntake(double percent) {
         requires(Robot.intake);
         this.percent = percent;
     }

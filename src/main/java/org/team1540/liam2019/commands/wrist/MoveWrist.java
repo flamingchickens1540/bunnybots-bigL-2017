@@ -1,6 +1,7 @@
 package org.team1540.liam2019.commands.wrist;
 
 import edu.wpi.first.wpilibj.command.TimedCommand;
+import org.team1540.liam2019.Hardware;
 import org.team1540.liam2019.Robot;
 
 public class MoveWrist extends TimedCommand {
@@ -40,6 +41,11 @@ public class MoveWrist extends TimedCommand {
 
     public MoveWrist(WristPosition position) {
         this(position.value, DEFAULT_TIMEOUT);
+    }
+
+    @Override
+    protected void initialize() {
+        Hardware.wrist.setBrake(true);
     }
 
     @Override

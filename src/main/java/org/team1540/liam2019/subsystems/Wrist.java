@@ -21,4 +21,9 @@ public class Wrist extends Subsystem {
     public void setPercent(double percent) {
         Hardware.wrist.set(ControlMode.PercentOutput, percent);
     }
+
+    public void zero() {
+        Hardware.wrist.set(ControlMode.PercentOutput, 0);
+        Hardware.wrist.setSelectedSensorPosition(0);
+    }
 }

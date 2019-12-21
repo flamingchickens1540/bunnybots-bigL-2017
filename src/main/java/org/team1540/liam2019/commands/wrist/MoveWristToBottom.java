@@ -7,7 +7,7 @@ import org.team1540.liam2019.Robot;
 public class MoveWristToBottom extends TimedCommand {
 
     private static final int WRIST_DOWN_POS = -2300;
-    private static final double TIMEOUT = 0.9;
+    private static final double TIMEOUT = 1;
     private static final double DOWN_PERCENT = -0.5;
 
 
@@ -34,6 +34,5 @@ public class MoveWristToBottom extends TimedCommand {
     @Override
     protected void end() {
         Robot.wrist.setPercent(0);
-        Hardware.wrist.setBrake(true);
     }
 }
