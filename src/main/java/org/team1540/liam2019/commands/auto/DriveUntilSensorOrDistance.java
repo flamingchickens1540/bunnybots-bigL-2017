@@ -38,4 +38,9 @@ public class DriveUntilSensorOrDistance extends Command {
         boolean sensorTripped = Hardware.intakeSensor.getVoltage() < minSensorVoltage;
         return reachedMaxDistance || sensorTripped;
     }
+
+    @Override
+    protected void end() {
+        Robot.driveTrain.stop();
+    }
 }

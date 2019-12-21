@@ -47,11 +47,16 @@ public class PointDrive extends Command {
         min = SmartDashboard.getNumber("PointDrive/min", 0);
         deadzone = SmartDashboard.getNumber("PointDrive/deadzone", 0);
         pointController.setPID(p, i, d);
+        setGoalToCurrentAngle();
     }
 
     public void zeroAngle() {
         angleOffset = navx.getYawRadians();
-        goalAngle = 0;
+        setGoalToCurrentAngle();
+    }
+
+    public void setGoalToCurrentAngle() {
+        goalAngle = navx.getYawRadians() - angleOffset;
     }
 
     @Override

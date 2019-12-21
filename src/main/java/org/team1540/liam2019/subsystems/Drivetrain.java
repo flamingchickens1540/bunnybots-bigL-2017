@@ -24,4 +24,8 @@ public class Drivetrain extends Subsystem {
     public double getRightPos() {
         return Hardware.rightA.getEncoder().getPosition();
     }
+
+    public void stop() {
+        setPercent(0, 0);
+    }
 }

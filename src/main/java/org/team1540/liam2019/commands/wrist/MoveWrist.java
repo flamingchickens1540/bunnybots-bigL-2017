@@ -9,7 +9,6 @@ public class MoveWrist extends TimedCommand {
     private static double DEFAULT_TIMEOUT = 2;
 
     public enum WristPosition {
-        DOWN(-2600),
         CARRY(-2000),
         YEET(-1200),
         UP(0),
