@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.team1540.liam2019.OI;
 import org.team1540.liam2019.Robot;
+import org.team1540.liam2019.utils.ControlUtils;
 import org.team1540.liam2019.utils.MiniPID;
 import org.team1540.liam2019.utils.TrigUtils;
 import org.team1540.rooster.Utilities;
@@ -18,6 +19,9 @@ public class PointDrive extends Command {
     private double goalAngle;
     private MiniPID pointController;
     private double angleOffset;
+    private double max;
+    private double min;
+    private double deadzone;
 
     public PointDrive() {
         requires(Robot.driveTrain);
@@ -25,6 +29,9 @@ public class PointDrive extends Command {
         SmartDashboard.putNumber("PointDrive/P", 2);
         SmartDashboard.putNumber("PointDrive/I", 0);
         SmartDashboard.putNumber("PointDrive/D", 0);
+        SmartDashboard.putNumber("PointDrive/max", 0.3);
+        SmartDashboard.putNumber("PointDrive/min", 0);
+        SmartDashboard.putNumber("PointDrive/deadzone", 0.02);
 
         pointController = new MiniPID(0, 0, 0);
         pointController.setOutputLimits(1);
@@ -36,6 +43,9 @@ public class PointDrive extends Command {
         double p = SmartDashboard.getNumber("PointDrive/P", 0);
         double i = SmartDashboard.getNumber("PointDrive/I", 0);
         double d = SmartDashboard.getNumber("PointDrive/D", 0);
+        max = SmartDashboard.getNumber("PointDrive/max", 0);
+        min = SmartDashboard.getNumber("PointDrive/min", 0);
+        deadzone = SmartDashboard.getNumber("PointDrive/deadzone", 0);
         pointController.setPID(p, i, d);
     }
 
@@ -51,7 +61,13 @@ public class PointDrive extends Command {
     @Override
     protected void execute() {
         if (driver.get2DJoystickMagnitude(Hand.kRight) > 0.1) goalAngle = driver.get2DJoystickAngle(Hand.kRight);
-        double angleOutput = pointController.getOutput(TrigUtils.signedAngleError(goalAngle + angleOffset, navx.getYawRadians()));
+        double error = TrigUtils.signedAngleError(goalAngle + angleOffset, navx.getYawRadians());
+        SmartDashboard.putNumber("PointDrive/error", error);
+        double rawPIDOutput = pointController.getOutput(error);
+        double angleOutput = ControlUtils.allVelocityConstraints(rawPIDOutput, max, min, deadzone);
+
+
+
         double throttle = Utilities.processDeadzone(driver.getRectifiedX(Hand.kLeft), 0.1);
 
         double leftMotors = throttle-angleOutput;

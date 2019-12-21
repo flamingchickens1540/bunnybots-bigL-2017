@@ -66,8 +66,8 @@ public class OI {
         {
             addSequential(new SetGrabber(false));
             addParallel(new MoveWrist(MoveWrist.WristPosition.DOWN, 1));
-            addSequential(new SensorIntakeBin(-0.3, 2));
-            addSequential(new SetIntakeForTime(-0.5, 0.3));
+            addSequential(new SensorIntakeBin(-0.5, 2));
+            addSequential(new SetIntakeForTime(-1, 0.15));
             addSequential(new SetGrabber(true));
             addSequential(new MoveWrist(MoveWrist.WristPosition.CARRY, 1));
         }

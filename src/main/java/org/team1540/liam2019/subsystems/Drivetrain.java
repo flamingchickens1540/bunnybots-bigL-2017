@@ -2,13 +2,14 @@ package org.team1540.liam2019.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.team1540.liam2019.Hardware;
-import org.team1540.liam2019.commands.drivetrain.TankDrive;
+import org.team1540.liam2019.commands.drivetrain.PointDrive;
 
 public class Drivetrain extends Subsystem {
 
     @Override
     protected void initDefaultCommand() {
-        setDefaultCommand(new TankDrive());
+        setDefaultCommand(new PointDrive());
+//        setDefaultCommand(new TankDrive());
     }
 
     public void setPercent(double leftPercent, double rightPercent) {
