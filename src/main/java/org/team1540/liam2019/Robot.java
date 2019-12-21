@@ -3,10 +3,12 @@ package org.team1540.liam2019;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.team1540.liam2019.commands.auto.Auto;
 import org.team1540.liam2019.subsystems.Drivetrain;
 import org.team1540.liam2019.subsystems.Grabber;
 import org.team1540.liam2019.subsystems.Intake;
 import org.team1540.liam2019.subsystems.Wrist;
+import org.team1540.liam2019.wrappers.Limelight;
 
 public class Robot extends TimedRobot {
 
@@ -14,6 +16,7 @@ public class Robot extends TimedRobot {
     public static Grabber grabber = new Grabber();
     public static Intake intake = new Intake();
     public static Wrist wrist = new Wrist();
+    public static Limelight limelight = new Limelight("limelight-a");
 
     @Override
     public void robotPeriodic() {
@@ -39,5 +42,6 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         Robot.wrist.zero();
+        new Auto().start();
     }
 }

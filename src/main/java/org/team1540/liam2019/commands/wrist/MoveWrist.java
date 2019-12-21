@@ -11,7 +11,7 @@ public class MoveWrist extends TimedCommand {
 
     public enum WristPosition {
         CARRY(-2000),
-        YEET(-1200),
+        YEET(-2500),
         UP(0),
         SHAKE(100),
         BACK(500);
@@ -55,6 +55,6 @@ public class MoveWrist extends TimedCommand {
 
     @Override
     protected boolean isFinished() {
-        return Math.abs(Robot.wrist.getPosition() - position) < TOLERANCE;
+        return Math.abs(Robot.wrist.getPosition() - position) < TOLERANCE || isTimedOut();
     }
 }

@@ -34,6 +34,7 @@ public class OI {
     public static Button floorIntake = copilot.getButton(XboxButton.A);
     public static Button dumpAndEjectBin = copilot.getButton(XboxButton.B);
 
+    public static Button intakeBack = copilot.getButton(DPadAxis.RIGHT);
     public static Button intakeUp = copilot.getButton(DPadAxis.UP);
     public static Button intakeYeet = copilot.getButton(DPadAxis.LEFT);
     public static Button intakeDown = copilot.getButton(DPadAxis.DOWN);
@@ -68,6 +69,7 @@ public class OI {
 
         dumpAndEjectBin.whenPressed(new DumpAndEjectBin());
 
+        intakeBack.whenPressed(new MoveWrist(MoveWrist.WristPosition.BACK, 1));
         intakeUp.whenPressed(new MoveWrist(MoveWrist.WristPosition.UP, 1));
         intakeYeet.whenPressed(new MoveWrist(MoveWrist.WristPosition.YEET, 1));
         intakeDown.whenPressed(new MoveWristToBottom());

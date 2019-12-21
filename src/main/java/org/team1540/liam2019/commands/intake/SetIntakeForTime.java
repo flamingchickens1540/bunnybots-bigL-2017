@@ -22,4 +22,6 @@ public class SetIntakeForTime extends TimedCommand {
     protected void end() {
         Robot.intake.set(0);
     }
+
+
 }
