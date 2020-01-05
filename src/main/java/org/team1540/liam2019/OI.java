@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import org.team1540.liam2019.commands.auto.Auto;
+import org.team1540.liam2019.commands.auto.VisionDriveUntilSensorOrDistance;
 import org.team1540.liam2019.commands.grabber.SetGrabber;
 import org.team1540.liam2019.commands.intake.SensorIntakeBin;
 import org.team1540.liam2019.commands.intake.SetIntake;
@@ -115,4 +116,13 @@ public class OI {
             addSequential(new SetGrabber(false));
         }
     }
+
+    public static class AutoGetBin extends CommandGroup {
+        {
+            addParallel(new OI.FloorIntake());
+            addSequential(new VisionDriveUntilSensorOrDistance(0.3, 363 * 0.47, 15, 2));
+        }
+    }
+
+
 }

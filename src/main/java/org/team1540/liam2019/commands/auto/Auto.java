@@ -5,7 +5,8 @@ import org.team1540.liam2019.OI;
 
 public class Auto extends CommandGroup {
     public Auto() {
-        addParallel(new OI.FloorIntake());
-        addSequential(new VisionDriveUntilSensorOrDistance(0.3, 363 * 0.47, 15, 2));
+        addSequential(new OI.AutoGetBin());
+        addParallel(new OI.DumpBin());
+        addSequential(new DriveForTime(-0.1, 3));
     }
 }

@@ -25,4 +25,9 @@ public class DriveForTime extends TimedCommand {
         double rightMotors = rightPercent;
         Robot.driveTrain.setPercent(leftMotors, rightMotors);
     }
+
+    @Override
+    protected void end() {
+        Robot.driveTrain.stop();
+    }
 }
